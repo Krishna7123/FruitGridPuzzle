@@ -12,8 +12,7 @@ public class GridManager : MonoBehaviour
     private Cell[,] grid;
     private int playerRow;
     private int playerColumn;
-    private int score = 0;
-    private int fruitsCollected = 0;
+    
     private void Start()
     {
         CreateGrid();
@@ -59,6 +58,7 @@ public class GridManager : MonoBehaviour
             if (grid[row, col].TileType == TileType.Empty)
             {
                 grid[row, col].TileType = TileType.Fruit;
+                GameManager.Instance.RegisterFruit();
                 Debug.Log("Fruit Spawned : " + row + "," + col);
 
                 spawned++;
@@ -146,17 +146,14 @@ public class GridManager : MonoBehaviour
         // Collect Fruit
         if (destinationTile == TileType.Fruit)
         {
-            score += 1;
-            fruitsCollected++;
-
+            GameManager.Instance.CollectFruit();
             Debug.Log("Fruit Collected!");
         }
 
         // Hit Bomb
         if (destinationTile == TileType.Bomb)
         {
-            score -= 2;
-
+            GameManager.Instance.HitBomb();
             Debug.Log("Bomb Hit!");
         }
 
@@ -170,8 +167,7 @@ public class GridManager : MonoBehaviour
         // Place player
         grid[playerRow, playerColumn].TileType = TileType.Player;
 
-        Debug.Log("Current Score : " + score);
-        Debug.Log("Fruits Collected : " + fruitsCollected);
+        GameManager.Instance.AddMove();
 
         PrintGrid();
     }

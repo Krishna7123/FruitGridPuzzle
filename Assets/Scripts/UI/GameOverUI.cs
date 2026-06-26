@@ -21,21 +21,21 @@ public class GameOverUI : MonoBehaviour
     {
         gameOverPanel.SetActive(true);
 
-        resultText.text = "🎉 YOU WIN";
+        resultText.text = "YOU WIN!";
     }
 
     public void ShowLose()
     {
         gameOverPanel.SetActive(true);
 
-        resultText.text = "💀 YOU LOSE";
+        resultText.text = " YOU LOSE!";
     }
 
     public void ShowDraw()
     {
         gameOverPanel.SetActive(true);
 
-        resultText.text = "🤝 DRAW";
+        resultText.text = " DRAW!";
     }
 
     public void RestartGame()

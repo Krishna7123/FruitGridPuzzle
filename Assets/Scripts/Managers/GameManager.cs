@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     [Header("Win Condition")]
     [SerializeField] private int targetScore = 5;
 
+    public int Score => score;
+    public int Moves => moves;
+    public int TotalFruits => totalFruits;
+    public int CollectedFruits => collectedFruits;
+
     private void Awake()
     {
         if (Instance == null)
@@ -26,15 +31,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        UpdateHUD();
+    }
+
     public void RegisterFruit()
     {
         totalFruits++;
+
+        UpdateHUD();
     }
 
     public void CollectFruit()
     {
         collectedFruits++;
         score++;
+
+        UpdateHUD();
 
         CheckGameState();
     }
@@ -43,12 +57,29 @@ public class GameManager : MonoBehaviour
     {
         score -= 2;
 
+        UpdateHUD();
+
         CheckGameState();
     }
 
     public void AddMove()
     {
         moves++;
+
+        UpdateHUD();
+    }
+
+    private void UpdateHUD()
+    {
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.UpdateUI(
+                score,
+                moves,
+                collectedFruits,
+                totalFruits
+            );
+        }
     }
 
     private void CheckGameState()

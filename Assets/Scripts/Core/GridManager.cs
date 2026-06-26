@@ -12,8 +12,12 @@ public class GridManager : MonoBehaviour
     private Cell[,] grid;
     private int playerRow;
     private int playerColumn;
-    
-    private void Start()
+    [SerializeField] private GridRenderer gridRenderer;
+
+    public Cell[,] Grid => grid;
+    public int Rows => rows;
+    public int Columns => columns;
+    private void Awake()
     {
         CreateGrid();
 
@@ -22,8 +26,12 @@ public class GridManager : MonoBehaviour
         SpawnFruits();
 
         SpawnBombs();
+    }
 
+    private void Start()
+    {
         PrintGrid();
+        gridRenderer.RefreshGrid();
     }
 
     private void CreateGrid()
@@ -124,20 +132,10 @@ public class GridManager : MonoBehaviour
         int newRow = playerRow + rowOffset;
         int newColumn = playerColumn + columnOffset;
 
-        // Check top boundary
-        if (newRow < 0)
+        if (newRow < 0 || newRow >= rows)
             return;
 
-        // Check bottom boundary
-        if (newRow >= rows)
-            return;
-
-        // Check left boundary
-        if (newColumn < 0)
-            return;
-
-        // Check right boundary
-        if (newColumn >= columns)
+        if (newColumn < 0 || newColumn >= columns)
             return;
 
         // Remove player from old position
@@ -170,5 +168,7 @@ public class GridManager : MonoBehaviour
         GameManager.Instance.AddMove();
 
         PrintGrid();
+
+        gridRenderer.RefreshGrid();
     }
 }

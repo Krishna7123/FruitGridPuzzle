@@ -4,26 +4,23 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GridManager gridManager;
 
-    private void Update()
+    public void MoveUp()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            gridManager.MovePlayer(-1, 0);
-        }
+        gridManager.MovePlayer(-1, 0);
+    }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            gridManager.MovePlayer(1, 0);
-        }
+    public void MoveDown()
+    {
+        gridManager.MovePlayer(1, 0);
+    }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            gridManager.MovePlayer(0, -1);
-        }
+    public void MoveLeft()
+    {
+        gridManager.MovePlayer(0, -1);
+    }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            gridManager.MovePlayer(0, 1);
-        }
+    public void MoveRight()
+    {
+        gridManager.MovePlayer(0, 1);
     }
 }

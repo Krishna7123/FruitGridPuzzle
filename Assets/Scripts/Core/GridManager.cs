@@ -3,15 +3,17 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
     [Header("Grid Settings")]
-    private int playerRow = 0;
-    private int playerColumn = 0;
+ 
     [SerializeField] private int rows = 4;
     [SerializeField] private int columns = 4;
     [SerializeField] private int fruitCount = 5;
     [SerializeField] private int bombCount = 3;
 
     private Cell[,] grid;
-
+    private int playerRow;
+    private int playerColumn;
+    private int score = 0;
+    private int fruitsCollected = 0;
     private void Start()
     {
         CreateGrid();
@@ -40,7 +42,9 @@ public class GridManager : MonoBehaviour
 
     private void PlacePlayer()
     {
-        grid[0, 0].TileType = TileType.Player;
+        playerRow = 0;
+        playerColumn = 0;
+        grid[playerRow,playerColumn].TileType = TileType.Player;
     }
 
     private void SpawnFruits()
@@ -55,6 +59,7 @@ public class GridManager : MonoBehaviour
             if (grid[row, col].TileType == TileType.Empty)
             {
                 grid[row, col].TileType = TileType.Fruit;
+                Debug.Log("Fruit Spawned : " + row + "," + col);
 
                 spawned++;
             }
@@ -73,6 +78,7 @@ public class GridManager : MonoBehaviour
             if (grid[row, col].TileType == TileType.Empty)
             {
                 grid[row, col].TileType = TileType.Bomb;
+                Debug.Log("Bomb Spawned : " + row + "," + col);
 
                 spawned++;
             }
@@ -118,18 +124,54 @@ public class GridManager : MonoBehaviour
         int newRow = playerRow + rowOffset;
         int newColumn = playerColumn + columnOffset;
 
-        if (newRow < 0 || newRow >= rows)
+        // Check top boundary
+        if (newRow < 0)
             return;
 
-        if (newColumn < 0 || newColumn >= columns)
+        // Check bottom boundary
+        if (newRow >= rows)
             return;
 
+        // Check left boundary
+        if (newColumn < 0)
+            return;
+
+        // Check right boundary
+        if (newColumn >= columns)
+            return;
+
+        // Remove player from old position
+        TileType destinationTile = grid[newRow, newColumn].TileType;
+
+        // Collect Fruit
+        if (destinationTile == TileType.Fruit)
+        {
+            score += 1;
+            fruitsCollected++;
+
+            Debug.Log("Fruit Collected!");
+        }
+
+        // Hit Bomb
+        if (destinationTile == TileType.Bomb)
+        {
+            score -= 2;
+
+            Debug.Log("Bomb Hit!");
+        }
+
+        // Remove player from old position
         grid[playerRow, playerColumn].TileType = TileType.Empty;
 
+        // Move player
         playerRow = newRow;
         playerColumn = newColumn;
 
+        // Place player
         grid[playerRow, playerColumn].TileType = TileType.Player;
+
+        Debug.Log("Current Score : " + score);
+        Debug.Log("Fruits Collected : " + fruitsCollected);
 
         PrintGrid();
     }

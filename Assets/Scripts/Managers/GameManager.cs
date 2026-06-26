@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int totalFruits;
     [SerializeField] private int collectedFruits;
+    private Stack<GameState> gameHistory = new Stack<GameState>();
 
     [Header("Win Condition")]
     [SerializeField] private int targetScore = 5;
@@ -80,6 +81,25 @@ public class GameManager : MonoBehaviour
                 totalFruits
             );
         }
+    }
+
+    public void SaveGameState(GameState state)
+    {
+        gameHistory.Push(state);
+
+        Debug.Log("Game State Saved");
+
+        Debug.Log("History Count : " + gameHistory.Count);
+    }
+
+    public GameState GetPreviousState()
+    {
+        if (gameHistory.Count == 0)
+        {
+            return null;
+        }
+
+        return gameHistory.Pop();
     }
 
     private void CheckGameState()

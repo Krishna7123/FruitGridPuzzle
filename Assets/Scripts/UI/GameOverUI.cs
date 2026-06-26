@@ -40,8 +40,8 @@ public class GameOverUI : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(
-            SceneManager.GetActiveScene().buildIndex
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
         );
     }
 }

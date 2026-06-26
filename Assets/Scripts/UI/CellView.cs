@@ -1,28 +1,35 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class CellView : MonoBehaviour
 {
-    [SerializeField] private TMP_Text iconText;
+    [Header("Image")]
+    [SerializeField] private Image tileImage;
+
+    [Header("Sprites")]
+    [SerializeField] private Sprite emptySprite;
+    [SerializeField] private Sprite playerSprite;
+    [SerializeField] private Sprite fruitSprite;
+    [SerializeField] private Sprite bombSprite;
 
     public void SetTile(TileType tileType)
     {
         switch (tileType)
         {
             case TileType.Empty:
-                iconText.text = "";
+                tileImage.sprite = emptySprite;
                 break;
 
             case TileType.Player:
-                iconText.text = "🙂";
+                tileImage.sprite = playerSprite;
                 break;
 
             case TileType.Fruit:
-                iconText.text = "🍎";
+                tileImage.sprite = fruitSprite;
                 break;
 
             case TileType.Bomb:
-                iconText.text = "💣";
+                tileImage.sprite = bombSprite;
                 break;
         }
     }

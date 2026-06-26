@@ -30,8 +30,13 @@ public class PlayerController : MonoBehaviour
 
     public void MoveRight()
     {
+        Debug.Log("Move Right Pressed");
+
         if (GameManager.Instance.IsGameOver)
+        {
+            Debug.Log("Game Over is TRUE");
             return;
+        }
 
         gridManager.MovePlayer(0, 1);
     }

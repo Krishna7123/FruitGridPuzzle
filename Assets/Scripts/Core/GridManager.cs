@@ -24,17 +24,18 @@ public class GridManager : MonoBehaviour
     {
         CreateGrid();
 
+        
+    }
+
+    private void Start()
+    {
         PlacePlayer();
 
         SpawnFruits();
 
         SpawnBombs();
-    }
-
-    private void Start()
-    {
         PrintGrid();
-        gridRenderer.RefreshGrid();
+       // gridRenderer.RefreshGrid();
     }
 
     private void CreateGrid()
@@ -69,7 +70,16 @@ public class GridManager : MonoBehaviour
             if (grid[row, col].TileType == TileType.Empty)
             {
                 grid[row, col].TileType = TileType.Fruit;
-                GameManager.Instance.RegisterFruit();
+
+                if (GameManager.Instance == null)
+                {
+                    Debug.LogError("GameManager.Instance is NULL!");
+                }
+                else
+                {
+                    GameManager.Instance.RegisterFruit();
+                }
+
                 Debug.Log("Fruit Spawned : " + row + "," + col);
 
                 spawned++;
@@ -141,38 +151,35 @@ public class GridManager : MonoBehaviour
         if (newColumn < 0 || newColumn >= columns)
             return;
 
-        // Remove player from old position
         TileType destinationTile = grid[newRow, newColumn].TileType;
 
-        // Collect Fruit
         if (destinationTile == TileType.Fruit)
         {
             GameManager.Instance.CollectFruit();
             Debug.Log("Fruit Collected!");
         }
 
-        // Hit Bomb
         if (destinationTile == TileType.Bomb)
         {
             GameManager.Instance.HitBomb();
             Debug.Log("Bomb Hit!");
         }
 
-        // Remove player from old position
         grid[playerRow, playerColumn].TileType = TileType.Empty;
 
-        // Move player
         playerRow = newRow;
         playerColumn = newColumn;
 
-        // Place player
         grid[playerRow, playerColumn].TileType = TileType.Player;
 
         GameManager.Instance.AddMove();
 
         PrintGrid();
 
-        gridRenderer.RefreshGrid();
+        if (gridRenderer != null)
+        {
+            gridRenderer.RefreshGrid();
+        }
     }
 
     public Cell[,] CloneGrid()

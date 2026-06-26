@@ -25,14 +25,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+
+        gameOver = false;
     }
 
     private void Start()
@@ -156,5 +157,25 @@ public class GameManager : MonoBehaviour
     public void SetTotalFruits(int value)
     {
         totalFruits = value;
+    }
+
+    public void ResetGame()
+    {
+        score = 0;
+        moves = 0;
+        totalFruits = 0;
+        collectedFruits = 0;
+
+        gameOver = false;
+
+        UpdateHUD();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }

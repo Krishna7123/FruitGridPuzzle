@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Win Condition")]
     [SerializeField] private int targetScore = 5;
+    private bool gameOver = false;
+
+    public bool IsGameOver => gameOver;
 
     public int Score => score;
     public int Moves => moves;
@@ -109,20 +112,49 @@ public class GameManager : MonoBehaviour
         Debug.Log("Moves : " + moves);
         Debug.Log("Collected Fruits : " + collectedFruits + "/" + totalFruits);
 
+        if (score < 0)
+        {
+            gameOver = true;
+            GameOverUI.Instance.ShowLose();
+            return;
+        }
+
         if (collectedFruits == totalFruits)
         {
+            gameOver = true;
+
             if (score >= targetScore)
             {
-                Debug.Log("YOU WIN");
+                GameOverUI.Instance.ShowWin();
             }
             else if (score == 0)
             {
-                Debug.Log("DRAW");
+                GameOverUI.Instance.ShowDraw();
             }
             else
             {
-                Debug.Log("YOU LOSE");
+                GameOverUI.Instance.ShowLose();
             }
         }
+    }
+
+    public void SetScore(int value)
+    {
+        score = value;
+    }
+
+    public void SetMoves(int value)
+    {
+        moves = value;
+    }
+
+    public void SetCollectedFruits(int value)
+    {
+        collectedFruits = value;
+    }
+
+    public void SetTotalFruits(int value)
+    {
+        totalFruits = value;
     }
 }

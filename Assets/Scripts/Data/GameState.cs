@@ -12,4 +12,5 @@ public class GameState
     public int Moves;
 
     public int CollectedFruits;
+    public int TotalFruits;
 }

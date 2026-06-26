@@ -17,6 +17,9 @@ public class GridManager : MonoBehaviour
     public Cell[,] Grid => grid;
     public int Rows => rows;
     public int Columns => columns;
+
+    public int PlayerRow => playerRow;
+    public int PlayerColumn => playerColumn;
     private void Awake()
     {
         CreateGrid();
@@ -170,5 +173,27 @@ public class GridManager : MonoBehaviour
         PrintGrid();
 
         gridRenderer.RefreshGrid();
+    }
+
+    public Cell[,] CloneGrid()
+    {
+        Cell[,] copy = new Cell[rows, columns];
+
+        for (int row = 0; row < rows; row++)
+        {
+            for (int col = 0; col < columns; col++)
+            {
+                Cell original = grid[row, col];
+
+                Cell clone = new Cell(original.Row, original.Column);
+
+                clone.TileType = original.TileType;
+                clone.IsCollected = original.IsCollected;
+
+                copy[row, col] = clone;
+            }
+        }
+
+        return copy;
     }
 }

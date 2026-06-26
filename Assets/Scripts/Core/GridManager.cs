@@ -3,6 +3,8 @@ using UnityEngine;
 public class GridManager : MonoBehaviour
 {
     [Header("Grid Settings")]
+    private int playerRow = 0;
+    private int playerColumn = 0;
     [SerializeField] private int rows = 4;
     [SerializeField] private int columns = 4;
     [SerializeField] private int fruitCount = 5;
@@ -109,5 +111,26 @@ public class GridManager : MonoBehaviour
 
             Debug.Log(line);
         }
+    }
+
+    public void MovePlayer(int rowOffset, int columnOffset)
+    {
+        int newRow = playerRow + rowOffset;
+        int newColumn = playerColumn + columnOffset;
+
+        if (newRow < 0 || newRow >= rows)
+            return;
+
+        if (newColumn < 0 || newColumn >= columns)
+            return;
+
+        grid[playerRow, playerColumn].TileType = TileType.Empty;
+
+        playerRow = newRow;
+        playerColumn = newColumn;
+
+        grid[playerRow, playerColumn].TileType = TileType.Player;
+
+        PrintGrid();
     }
 }

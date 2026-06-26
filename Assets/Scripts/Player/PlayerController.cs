@@ -2,15 +2,28 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GridManager gridManager;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            gridManager.MovePlayer(-1, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            gridManager.MovePlayer(1, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            gridManager.MovePlayer(0, -1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            gridManager.MovePlayer(0, 1);
+        }
     }
 }

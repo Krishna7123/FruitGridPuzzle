@@ -8,7 +8,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int fruitCount = 5;
     [SerializeField] private int bombCount = 3;
 
-    private TileType[,] grid;
+    private Cell[,] grid;
 
     private void Start()
     {
@@ -25,20 +25,20 @@ public class GridManager : MonoBehaviour
 
     private void CreateGrid()
     {
-        grid = new TileType[rows, columns];
+        grid = new Cell[rows, columns];
 
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < columns; col++)
             {
-                grid[row, col] = TileType.Empty;
+                grid[row, col] = new Cell(row, col);
             }
         }
     }
 
     private void PlacePlayer()
     {
-        grid[0, 0] = TileType.Player;
+        grid[0, 0].TileType = TileType.Player;
     }
 
     private void SpawnFruits()
@@ -50,9 +50,9 @@ public class GridManager : MonoBehaviour
             int row = Random.Range(0, rows);
             int col = Random.Range(0, columns);
 
-            if (grid[row, col] == TileType.Empty)
+            if (grid[row, col].TileType == TileType.Empty)
             {
-                grid[row, col] = TileType.Fruit;
+                grid[row, col].TileType = TileType.Fruit;
 
                 spawned++;
             }
@@ -68,9 +68,9 @@ public class GridManager : MonoBehaviour
             int row = Random.Range(0, rows);
             int col = Random.Range(0, columns);
 
-            if (grid[row, col] == TileType.Empty)
+            if (grid[row, col].TileType == TileType.Empty)
             {
-                grid[row, col] = TileType.Bomb;
+                grid[row, col].TileType = TileType.Bomb;
 
                 spawned++;
             }
@@ -87,7 +87,7 @@ public class GridManager : MonoBehaviour
 
             for (int col = 0; col < columns; col++)
             {
-                switch (grid[row, col])
+                switch (grid[row, col].TileType)
                 {
                     case TileType.Empty:
                         line += ". ";
